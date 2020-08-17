@@ -3,6 +3,13 @@ const imgPokemon = document.getElementById('imgPokemon')
 const typePokemon = document.getElementById('typePokemon')
 const ability = document.getElementById('abilityList')
 const abilityList = document.getElementById('abilityList')
+const hp = document.querySelector('#hp')
+const atack = document.querySelector('#atack')
+const defense = document.querySelector('#defense')
+const specialA = document.querySelector('#specialA')
+const specialD = document.querySelector('#specialD')
+const speed = document.querySelector('#speed')
+
 
 async function getApi(id) {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
@@ -18,12 +25,14 @@ async function init() {
 init()
 
 function actualizar(pokemon){
-    namePokemon.innerHTML = pokemon.name
-    imgPokemon.setAttribute('src', pokemon.sprites.front_default)
     const typesPk = pokemon.types
     const hab = pokemon.abilities
+    const statPk = pokemon.stats
+    namePokemon.innerHTML = pokemon.name
+    imgPokemon.setAttribute('src', pokemon.sprites.front_default)
     ability.innerHTML = ""
     typePokemon.innerHTML = ""
+
     const ListarAb = () => {
         hab.forEach(element => {
             let abbLi = document.createElement("li")
@@ -42,8 +51,17 @@ function actualizar(pokemon){
             i++
         });
     }
+    const ListarSt = () => {
+       hp.style.width = (statPk[0].base_stat / 1.7) + '%' 
+       atack.style.width = (statPk[1].base_stat / 1.7) + '%' 
+       defense.style.width = (statPk[2].base_stat / 1.7) + '%' 
+       specialA.style.width = (statPk[3].base_stat / 1.7) + '%'  
+       specialD.style.width = (statPk[4].base_stat / 1.7) + '%' 
+       speed.style.width = (statPk[5].base_stat / 1.7) + '%' 
+    }
     ListarAb()
     ListarTy()
+    ListarSt()
 }
 
 window.addEventListener('change', async () => {
